@@ -173,12 +173,36 @@ function userEmojiPath(userId) {
   return `${EMOJI_ROOT}/${userId}`;
 }
 
-async function ensureUserEmojiDir(userId) {
+async function ensureUserEmojiDirAsGM(userId) {
   const FP = getFilePicker();
   if (!FP) return;
   for (const dir of ["assets", EMOJI_ROOT, userEmojiPath(userId)]) {
-    try { await FP.createDirectory("data", dir); } catch (_e) {  }
+    try { await FP.createDirectory("data", dir); } catch (_e) { /* exists, ignore */ }
   }
+}
+
+function requestEmojiDirFromGM(userId) {
+  return new Promise(resolve => {
+    if (!game.socket) return resolve(false);
+    const requestId = foundry.utils.randomID();
+    let settled = false;
+    const onAck = (data) => {
+      if (settled) return;
+      if (data?.type === "ensure-emoji-dir-ack" && data.requestId === requestId) {
+        settled = true;
+        game.socket.off(SOCKET_NAME, onAck);
+        resolve(true);
+      }
+    };
+    game.socket.on(SOCKET_NAME, onAck);
+    game.socket.emit(SOCKET_NAME, { type: "ensure-emoji-dir", userId, requestId });
+    setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      game.socket.off(SOCKET_NAME, onAck);
+      resolve(false);
+    }, 7000);
+  });
 }
 
 async function listEmojiFiles(userId) {
@@ -195,8 +219,24 @@ async function listEmojiFiles(userId) {
 async function uploadEmojiFile(userId, file) {
   const FP = getFilePicker();
   if (!FP) throw new Error("FilePicker is unavailable");
-  await ensureUserEmojiDir(userId);
-  return FP.upload("data", userEmojiPath(userId), file, {}, { notify: false });
+  const path = userEmojiPath(userId);
+
+  if (game.user.isGM) {
+    await ensureUserEmojiDirAsGM(userId);
+    return FP.upload("data", path, file, {}, { notify: false });
+  }
+
+  try {
+    return await FP.upload("data", path, file, {}, { notify: false });
+  } catch (err) {
+    if (!/does not exist/i.test(err?.message ?? "")) throw err;
+    if (!game.users.some(u => u.isGM && u.active)) {
+      throw new Error(game.i18n.localize(`${MODULE_ID}.emoji.manager.noGM`));
+    }
+    const created = await requestEmojiDirFromGM(userId);
+    if (!created) throw new Error(game.i18n.localize(`${MODULE_ID}.emoji.manager.noGM`));
+    return FP.upload("data", path, file, {}, { notify: false });
+  }
 }
 
 
@@ -388,10 +428,45 @@ function broadcastEmoji(payload) {
 }
 
 function registerEmojiSocket() {
-  game.socket?.on(SOCKET_NAME, (data) => {
-    if (data?.type !== "emoji") return;
-    showEmojiOnToken(data);
+  game.socket?.on(SOCKET_NAME, async (data) => {
+    if (!data || typeof data !== "object") return;
+
+    if (data.type === "emoji") {
+      showEmojiOnToken(data);
+      return;
+    }
+
+    if (data.type === "ensure-emoji-dir") {
+      if (!game.user.isGM) return;
+      const activeGM = game.users.activeGM;
+      if (activeGM && activeGM.id !== game.user.id) return;
+      try {
+        await ensureUserEmojiDirAsGM(data.userId);
+      } catch (err) {
+        console.warn(`${MODULE_ID} | could not ensure emoji dir for ${data.userId}`, err);
+      }
+      game.socket.emit(SOCKET_NAME, {
+        type: "ensure-emoji-dir-ack",
+        userId: data.userId,
+        requestId: data.requestId
+      });
+      return;
+    }
   });
+}
+
+
+async function provisionAllUserDirsAsGM() {
+  if (!game.user.isGM) return;
+  const FP = getFilePicker();
+  if (!FP) return;
+  for (const dir of ["assets", EMOJI_ROOT]) {
+    try { await FP.createDirectory("data", dir); } catch (_e) { /* exists */ }
+  }
+  for (const user of game.users) {
+    try { await FP.createDirectory("data", userEmojiPath(user.id)); }
+    catch (_e) { /* exists */ }
+  }
 }
 
 
@@ -543,4 +618,6 @@ Hooks.once("ready", () => {
   try { configureMovementActions(); } catch (err) { console.error(`${MODULE_ID} | configureMovementActions (ready) failed`, err); }
   try { registerEmojiSocket(); } catch (err) { console.error(`${MODULE_ID} | registerEmojiSocket failed`, err); }
   try { exposeApi(); } catch (err) { console.error(`${MODULE_ID} | exposeApi (ready) failed`, err); }
+  provisionAllUserDirsAsGM().catch(err =>
+    console.warn(`${MODULE_ID} | provisionAllUserDirsAsGM failed`, err));
 });

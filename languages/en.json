@@ -21,7 +21,8 @@
         "uploaded": "Uploaded {count} emoji file(s).",
         "uploadFailed": "Failed to upload \"{name}\". Check that you have file-upload permission.",
         "empty": "No emoji uploaded yet. Click Upload to add some.",
-        "deleteHint": "To delete files, remove them from the assets/emoji/<your-id>/ folder on the server."
+        "deleteHint": "To delete files, remove them from the assets/emoji/<your-id>/ folder on the server.",
+        "noGM": "No active GM is available to create your emoji folder. Ask a GM to log in and try again."
       },
       "picker": {
         "title": "Choose an Emoji",
