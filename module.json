@@ -3,7 +3,7 @@
   "title": "PF2e Movement Modes",
   "socket": true,
   "description": "Customizes Pathfinder 2e movement actions in FoundryVTT v13: Teleport ignores walls but requires line-of-sight to the destination, Leap ignores walls up to 8 ft tall, and a new Fly mode ignores invisible walls (walls that don't block sight).",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "library": false,
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
@@ -13,7 +13,7 @@
   },
   "authors": [
     {
-      "name": "Lumiel",
+      "name": "Lumiel"
     }
   ],
   "relationships": {
