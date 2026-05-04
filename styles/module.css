@@ -1,0 +1,105 @@
+.pf2emm .pf2emm-header {
+  padding: 0.5rem 0.75rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  border-bottom: 1px solid var(--color-border-light, #999) !important;
+}
+
+.pf2emm .pf2emm-header p { margin: 0 !important; }
+
+.pf2emm .pf2emm-path {
+  font-size: 0.85em !important;
+  opacity: 0.7 !important;
+  word-break: break-all !important;
+}
+
+.pf2emm .pf2emm-toolbar {
+  padding: 0.5rem 0.75rem !important;
+  display: flex !important;
+  gap: 0.5rem !important;
+  align-items: center !important;
+}
+
+.pf2emm .pf2emm-toolbar button {
+  flex: 0 0 auto !important;
+}
+
+.pf2emm .pf2emm-body {
+  padding: 0.5rem 0.75rem !important;
+  overflow-y: auto !important;
+}
+
+.pf2emm .pf2emm-footer {
+  padding: 0.4rem 0.75rem !important;
+  border-top: 1px solid var(--color-border-light, #999) !important;
+  opacity: 0.7 !important;
+}
+
+.pf2emm .pf2emm-empty {
+  text-align: center !important;
+  opacity: 0.6 !important;
+  padding: 1.5rem 0.5rem !important;
+}
+
+.pf2emm .pf2emm-emoji-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  gap: 0.5rem !important;
+}
+
+.pf2emm .pf2emm-emoji-card {
+  margin: 0 !important;
+  padding: 0.4rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  border: 1px solid var(--color-border-light, #999) !important;
+  border-radius: 4px !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.pf2emm .pf2emm-emoji-card img {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain !important;
+}
+
+.pf2emm .pf2emm-emoji-card figcaption {
+  font-size: 0.7em !important;
+  text-align: center !important;
+  word-break: break-all !important;
+  max-width: 80px !important;
+  opacity: 0.8 !important;
+}
+
+.pf2emm.pf2emm-emoji-picker .pf2emm-picker-grid {
+  padding: 0.5rem !important;
+}
+
+.pf2emm .pf2emm-emoji-cell {
+  width: 72px !important;
+  height: 72px !important;
+  padding: 0.25rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  cursor: pointer !important;
+  transition: transform 0.1s ease, border-color 0.1s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.pf2emm .pf2emm-emoji-cell:hover {
+  border-color: var(--color-border-highlight, #ff6400) !important;
+  transform: scale(1.06) !important;
+}
+
+.pf2emm .pf2emm-emoji-cell img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+}

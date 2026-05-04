@@ -1,24 +1,31 @@
 {
-  "id": "module",
-  "title": "New Module",
-  "description": "",
-  "version": "#{VERSION}#",
-  "library": "false",
+  "id": "pf2e-movement-module",
+  "title": "PF2e Movement Modes",
+  "description": "Customizes Pathfinder 2e movement actions in FoundryVTT v13: Teleport ignores walls but requires line-of-sight to the destination, Leap ignores walls up to 8 ft tall, and a new Fly mode ignores invisible walls (walls that don't block sight).",
+  "version": "1.1.0",
+  "library": false,
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 10,
-    "verified": 10,
-    "maximum": 11
+    "minimum": "13",
+    "verified": "13.351",
+    "maximum": "13"
   },
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+      "name": "adamant.jack",
+      "email": "adamant.jack@proton.me"
     }
   ],
   "relationships": {
-    "systems": [],
+    "systems": [
+      {
+        "id": "pf2e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "7"
+        }
+      }
+    ],
     "requires": []
   },
   "esmodules": [
@@ -35,17 +42,16 @@
       "lang": "en",
       "name": "English",
       "path": "languages/en.json"
+    },
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "languages/ru.json"
     }
   ],
-  "url": "#{URL}#",
-  "manifest": "#{MANIFEST}#",
-  "download": "#{DOWNLOAD}#",
+  "url": "https://github.com/Frost-Jack/pf2e-movement-module",
+  "manifest": "https://github.com/Frost-Jack/pf2e-movement-module/releases/latest/download/module.json",
+  "download": "https://github.com/Frost-Jack/pf2e-movement-module/releases/latest/download/module.zip",
   "license": "LICENSE",
-  "readme": "README.md",
-  "media": [
-    {
-      "type": "icon",
-      "url": "https://avatars2.githubusercontent.com/u/71292812?s=400&u=ccdb4eeb7abf551ca8f314e5a9bfd0479a4d3d41&v=4"
-    }
-  ]
+  "readme": "README.md"
 }

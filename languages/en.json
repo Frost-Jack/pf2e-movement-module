@@ -1,3 +1,33 @@
 {
-    "MODULE.hello": "hello"
+  "pf2e-movement-module": {
+    "warnings": {
+      "teleportNotVisible": "Teleport destination must be visible to the character.",
+      "flyBlocked": "Flight is blocked by a wall along this path.",
+      "leapBlocked": "Leap is blocked by a wall taller than 8 ft (or with no height set)."
+    },
+    "settings": {
+      "emojiManager": {
+        "name": "Character Emoji",
+        "label": "Open Emoji Manager",
+        "hint": "Upload images that will be available as character emoji. Files are stored under assets/emoji/<your-user-id>/."
+      }
+    },
+    "emoji": {
+      "manager": {
+        "title": "Character Emoji Manager",
+        "intro": "Emojis uploaded by {user}.",
+        "upload": "Upload",
+        "refresh": "Refresh",
+        "uploaded": "Uploaded {count} emoji file(s).",
+        "uploadFailed": "Failed to upload \"{name}\". Check that you have file-upload permission.",
+        "empty": "No emoji uploaded yet. Click Upload to add some.",
+        "deleteHint": "To delete files, remove them from the assets/emoji/<your-id>/ folder on the server."
+      },
+      "picker": {
+        "title": "Choose an Emoji",
+        "empty": "You haven't uploaded any emoji yet. Open the Emoji Manager from Module Settings.",
+        "noToken": "Select a token (or have an assigned character on the current scene) before sending an emoji."
+      }
+    }
+  }
 }
